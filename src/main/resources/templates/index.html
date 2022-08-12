@@ -31,7 +31,7 @@
                     <div class="articleFooter">
                         <p>Published: <span data-th-text="${article.publishedOn}"></span></p>
                         <a data-th-href="${article.url}">Link</a>
-                        <input type="checkbox" name="save" id="saveCheckBox" data-th-value="${article}" />
+                        <input type="checkbox" name="save" id="saveCheckBox" data-th-value="${article.id}" />
                         <label for="saveCheckBox">Save</label>
                     </div>
                 </div>

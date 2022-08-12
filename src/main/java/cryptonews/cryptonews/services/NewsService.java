@@ -19,7 +19,6 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-// import jakarta.json.JsonValue;
 
 @Service
 public class NewsService {
@@ -47,8 +46,8 @@ public class NewsService {
 
     public List<Article> getArticles() {
         String url = UriComponentsBuilder.fromUriString(baseUrl)
-                .queryParam("categories", "ALL_NEWS_CATEGORIES")
-                .queryParam("api_key", apiKey)
+                // .queryParam("categories", "ALL_NEWS_CATEGORIES")
+                // .queryParam("api_key", apiKey)
                 .toUriString();
 
         // Fetch API
@@ -100,16 +99,17 @@ public class NewsService {
             Reader reader = new StringReader(article);
             JsonReader jr = Json.createReader(reader);
             JsonObject response = jr.readObject();
-            // JsonValue objId = response.get("id");
-            // JsonValue publishedOn = response.get("published_on");
-            // JsonValue title = response.get("title");
-            // JsonValue url = response.get("url");
-            // JsonValue imageUrl = response.get("imageurl");
-            // JsonValue body = response.get("body");
-            // JsonValue tags = response.get("tags");
-            // JsonValue categories = response.get("categories");
             return response;
         }
     }
 
 }
+
+// JsonValue objId = response.get("id");
+// JsonValue publishedOn = response.get("published_on");
+// JsonValue title = response.get("title");
+// JsonValue url = response.get("url");
+// JsonValue imageUrl = response.get("imageurl");
+// JsonValue body = response.get("body");
+// JsonValue tags = response.get("tags");
+// JsonValue categories = response.get("categories");
