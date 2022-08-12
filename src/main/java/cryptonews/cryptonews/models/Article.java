@@ -1,5 +1,8 @@
 package cryptonews.cryptonews.models;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 public class Article {
     private String id;
     private String publishedOn;
@@ -74,4 +77,34 @@ public class Article {
         this.categories = categories;
     }
 
+    public String toValueString() {
+        StringBuilder stb = new StringBuilder();
+        String valueString = stb
+                .append("{ id:" + id + ",")
+                .append("title:" + title + ",")
+                .append("body:" + body + ",")
+                .append("published_on:" + publishedOn + ",")
+                .append("url" + url + ",")
+                .append("imageurl:" + imageUrl + ",")
+                .append("tags:" + tags + ",")
+                .append("categories:" + categories + "}")
+                .toString();
+        System.out.printf(">> valueString >> %s \n\n\n", valueString);
+        return valueString;
+    }
+
+    public JsonObject toJsonObject() {
+        JsonObject jo = Json.createObjectBuilder()
+                .add("id", id)
+                .add("title", title)
+                .add("body", body)
+                .add("published_on", publishedOn)
+                .add("url", url)
+                .add("imageurl", imageUrl)
+                .add("tags", tags)
+                .add("categories", categories)
+                .build();
+
+        return jo;
+    }
 }

@@ -10,14 +10,14 @@
 
 <body>
     <h1>Crypto News of the Day</h1>
-    <form action="/" method="post">
+    <form action="/articles" method="post">
         <div class="saveBtnWrapper">
             <button type="submit" class="saveButton">Save</button>
         </div>
         <div class="articlesWrapper" data-th-each="article: ${list}">
             <div class="article">
                 <div class="imageWrapper">
-                    <img src="" alt="">
+                    <img data-th-src="${article.imageUrl}" alt="">
                 </div>
                 <div class="infoWrapper">
                     <p>Id: <span data-th-text="${article.id}"></span></p>
@@ -29,13 +29,14 @@
                     </div>
                     <div class="articleFooter">
                         <p>Published: <span data-th-text="${article.publishedOn}"></span></p>
-                        <a href="">Link</a>
-                        <input type="checkbox" name="save" id="saveCheckBox" value="toSave">
+                        <a data-th-href="${article.url}">Link</a>
+                        <input type="checkbox" name="save" id="saveCheckBox" data-th-value="${article}" />
                         <label for="saveCheckBox">Save</label>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" name="list" data-th-value="${list}">
     </form>
 </body>
 
