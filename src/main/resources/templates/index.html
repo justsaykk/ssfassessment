@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoNews</title>
+</head>
+
+<body>
+    <h1>Crypto News of the Day</h1>
+    <form action="/" method="post">
+        <div class="saveBtnWrapper">
+            <button type="submit" class="saveButton">Save</button>
+        </div>
+        <div class="articlesWrapper" data-th-each="article: ${list}">
+            <div class="article">
+                <div class="imageWrapper">
+                    <img src="" alt="">
+                </div>
+                <div class="infoWrapper">
+                    <p>Id: <span data-th-text="${article.id}"></span></p>
+                    <h2 data-th-text="${article.title}"></h2>
+                    <p data-th-text="${article.body}"></p>
+                    <div class="catWrapper">
+                        <p>Categories: <span data-th-text="${article.categories}"></span></p>
+                        <p>Tags: <span data-th-text="${article.tags}"></span></p>
+                    </div>
+                    <div class="articleFooter">
+                        <p>Published: <span data-th-text="${article.publishedOn}"></span></p>
+                        <a href="">Link</a>
+                        <input type="checkbox" name="save" id="saveCheckBox" value="toSave">
+                        <label for="saveCheckBox">Save</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
