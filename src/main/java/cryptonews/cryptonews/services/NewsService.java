@@ -48,7 +48,7 @@ public class NewsService {
     public List<Article> getArticles() {
         String url = UriComponentsBuilder.fromUriString(baseUrl)
                 .queryParam("categories", "ALL_NEWS_CATEGORIES")
-                // .queryParam("api_key", apiKey)
+                .queryParam("api_key", apiKey)
                 .toUriString();
 
         // Fetch API

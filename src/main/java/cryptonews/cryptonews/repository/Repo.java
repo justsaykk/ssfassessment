@@ -1,8 +1,6 @@
 package cryptonews.cryptonews.repository;
 
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
