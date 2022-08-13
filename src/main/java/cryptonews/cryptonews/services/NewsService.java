@@ -4,6 +4,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,7 @@ public class NewsService {
     @Autowired
     private Repo repo;
 
-    private ResponseEntity<String> fetch(String url) {
+    public ResponseEntity<String> fetch(String url) {
         RestTemplate template = new RestTemplate();
         RequestEntity<Void> req = RequestEntity.get(url).build();
 
@@ -44,6 +45,17 @@ public class NewsService {
         }
     }
 
+    public void saveArticles(List<Article> list) {
+        // System.out.printf("Saving >> %s\n", list.toString());
+        for (Article article : list) {
+            repo.save(article);
+        }
+    }
+
+    public void save(List<String> listOfIds) {
+        repo.saveList(listOfIds);
+    }
+
     public List<Article> getArticles() {
         String url = UriComponentsBuilder.fromUriString(baseUrl)
                 // .queryParam("categories", "ALL_NEWS_CATEGORIES")
@@ -52,10 +64,8 @@ public class NewsService {
 
         // Fetch API
         ResponseEntity<String> res = fetch(url);
-
         // Get response:
         String payload = res.getBody();
-
         // Read response:
         Reader reader = new StringReader(payload);
         JsonReader jr = Json.createReader(reader);
@@ -67,49 +77,30 @@ public class NewsService {
         List<Article> resList = new LinkedList<>();
         for (int i = 0; i < data.size(); i++) {
             Article article = new Article();
-            JsonObject dataEl = data.getJsonObject(i);
-            article.setId(dataEl.getString("id"));
-            article.setPublishedOn(Integer.toString(dataEl.getInt("published_on")));
-            article.setTitle(dataEl.getString("title"));
-            article.setUrl(dataEl.getString("url"));
-            article.setImageUrl(dataEl.getString("imageurl"));
-            article.setBody(dataEl.getString("body"));
-            article.setTags(dataEl.getString("tags"));
-            article.setCategories(dataEl.getString("categories"));
-            resList.add(article);
+            JsonObject dataJo = data.getJsonObject(i);
+            resList.add(article.createFromJsonObj(dataJo));
         }
+
+        // Save initial list of all the articles
+        saveArticles(resList);
+
         return resList;
     }
 
-    public void saveArticles(List<Article> fullList) {
-        for (Article article : fullList) {
-            repo.save(article);
-        }
-    }
-
     public JsonObject getArticles(String id) {
-        String article = repo.get(id);
-        if (null == article) {
+        Optional<String> article = repo.get(id);
+        if (article.isEmpty()) {
             String value = "Cannot find news article " + id;
             JsonObject serverResponse = Json.createObjectBuilder()
                     .add("error", value)
                     .build();
             return serverResponse;
         } else {
-            Reader reader = new StringReader(article);
+            String payload = article.get();
+            Reader reader = new StringReader(payload);
             JsonReader jr = Json.createReader(reader);
             JsonObject response = jr.readObject();
             return response;
         }
     }
-
 }
-
-// JsonValue objId = response.get("id");
-// JsonValue publishedOn = response.get("published_on");
-// JsonValue title = response.get("title");
-// JsonValue url = response.get("url");
-// JsonValue imageUrl = response.get("imageurl");
-// JsonValue body = response.get("body");
-// JsonValue tags = response.get("tags");
-// JsonValue categories = response.get("categories");

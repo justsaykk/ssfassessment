@@ -77,32 +77,45 @@ public class Article {
         this.categories = categories;
     }
 
-    public String toValueString() {
-        StringBuilder stb = new StringBuilder();
-        String valueString = stb
-                .append("{ id:" + id + ",")
-                .append("title:" + title + ",")
-                .append("body:" + body + ",")
-                .append("published_on:" + publishedOn + ",")
-                .append("url" + url + ",")
-                .append("imageurl:" + imageUrl + ",")
-                .append("tags:" + tags + ",")
-                .append("categories:" + categories + "}")
-                .toString();
-        System.out.printf(">> valueString >> %s \n\n\n", valueString);
-        return valueString;
+    // public String toValueString() {
+    // StringBuilder stb = new StringBuilder();
+    // String valueString = stb
+    // .append("{ id:" + id + ",")
+    // .append("title:" + title + ",")
+    // .append("body:" + body + ",")
+    // .append("published_on:" + publishedOn + ",")
+    // .append("url" + url + ",")
+    // .append("imageurl:" + imageUrl + ",")
+    // .append("tags:" + tags + ",")
+    // .append("categories:" + categories + "}")
+    // .toString();
+    // System.out.printf(">> valueString >> %s \n\n\n", valueString);
+    // return valueString;
+    // }
+
+    public Article createFromJsonObj(JsonObject jo) {
+        Article n = new Article();
+        n.setId(jo.getString("id"));
+        n.setPublishedOn(Integer.toString(jo.getInt("published_on")));
+        n.setTitle(jo.getString("title"));
+        n.setUrl(jo.getString("url"));
+        n.setImageUrl(jo.getString("imageurl"));
+        n.setBody(jo.getString("body"));
+        n.setTags(jo.getString("tags"));
+        n.setCategories(jo.getString("categories"));
+        return n;
     }
 
-    public JsonObject toJsonObject() {
+    public JsonObject toJsonObject(Article article) {
         JsonObject jo = Json.createObjectBuilder()
-                .add("id", id)
-                .add("title", title)
-                .add("body", body)
-                .add("published_on", publishedOn)
-                .add("url", url)
-                .add("imageurl", imageUrl)
-                .add("tags", tags)
-                .add("categories", categories)
+                .add("id", article.getId())
+                .add("title", article.getTitle())
+                .add("body", article.getBody())
+                .add("published_on", article.getPublishedOn())
+                .add("url", article.getUrl())
+                .add("imageurl", article.getImageUrl())
+                .add("tags", article.getTags())
+                .add("categories", article.getCategories())
                 .build();
 
         return jo;

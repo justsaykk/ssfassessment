@@ -30,10 +30,10 @@ public class NewsController {
 
     @PostMapping(path = "/articles")
     public String saveArticles(
-            @RequestBody MultiValueMap<String, Article> form,
+            @RequestBody MultiValueMap<String, String> form,
             Model model) {
-        List<Article> listOfArticles = form.get("save");
-        newsSvc.saveArticles(listOfArticles);
+        List<String> listOfIds = form.get("save");
+        newsSvc.save(listOfIds);
         return "redirect:index";
     }
 }
